@@ -1,0 +1,52 @@
+<!--heredamos de base.html y definimos los bloques que queramos-->
+{% extends "noticias/base.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+ <!--establecemos el titulo en el bloque title-->
+Index
+{% endblock %}
+{% block css %}
+ <!--establecemos el titulo en el bloque title-->
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/noticias/css/noticias.css' %}">
+{% endblock %}
+
+{% block content %}
+{% load bootstrap_pagination %}
+<div class="text-center">
+    <h1 class="jumbotrom titulo">Sección noticias</h1> 
+</div>
+{% for n in noticias %}
+    <div class="row">
+            <div class="col-md-3 offset-md-1">
+                <img src="{{ n.imagen.url }}" width="200" height='200' class="img-thumbnail">
+            </div>
+            <div class="card-body cardNoticias col-md-6">
+                <h5 class="card-title"><strong>{{ n.titulo }}</strong></h5>
+                {{ n.contenido|safe}} <br>
+            </div>
+            <div class="col-md-11 text-right">
+                <p>Publicado: {{ n.created }}</p>
+            </div>
+    </div>
+    <div class="col-md-12">
+        <hr>
+    </div>
+{% endfor %}
+<br>
+<div class="row">
+    <div class="col-md-5 offset-md-5">
+        <a href="#">Inicia sesión para acceder al aula</a>
+    </div>
+    <div class="col-md-2">
+        {% bootstrap_paginate noticias %}
+    </div>
+</div>
+
+{% endblock %}
+ <!--finaliza el bloque content-->
+<!--heredamos el bloque footer-->
+{% block footer %}
+
+{% endblock %}
+<!--finaliza el bloque footer-->

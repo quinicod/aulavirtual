@@ -1,0 +1,37 @@
+{% extends "aula/base.html" %}
+{% block title %}
+Asignaturas
+{% endblock %}
+{% block css %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/aula/css/aula.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="gallery-block cards-gallery">
+	<div class="container">
+	    <div class="heading">
+	        <h2>Asignaturas del alumno:</h2>
+	    </div>
+	    <div class="row">
+            {% for a in asignaturas %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 transform-on-hover">
+                        <a class="lightbox" href="{% url 'asigAula' a.id_asignatura.slug %}">
+                            <img src="{{ a.id_asignatura.imagen.url }}" alt="Card Image" class="card-img-top" height="200" width="100">
+                        </a>
+                        <div class="card-body">
+                            {% comment %} <h6><a href="#">Lorem Ipsum</a></h6> {% endcomment %}
+                            <p class="text-muted card-text">{{ a.id_asignatura.nombre }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+	    </div>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

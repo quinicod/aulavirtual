@@ -1,0 +1,59 @@
+/* navbar lateral */
+.nav-pills{
+    background-color: #b3b6b7;
+    height: 100%;
+    padding-bottom: 20%;
+    padding-top: 15%;
+}
+li.nav-item a{
+    color: white !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+li.nav-item a:hover{
+    background-color: #98a5ad!important;
+    border-style: none !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+li.nav-item a.active{
+    color: #626b70 !important;
+    background-color: white !important;
+    border-style: none !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+li.nav-item{
+    width: 100%;
+    margin-top: 5%;
+}
+.defaultLateral{
+    height: 100%;
+}
+.lateralHome{
+    padding-bottom: 200%;
+}
+
+/* navbar orizontal */
+.navbar{
+    background-color: #34495e;
+}
+.dropdown-menu{
+    background-color: #34495e;
+}
+.dropdown-menu a:hover{
+    background-color: #34495e !important;
+}
+a.navbar-brand{
+    color: white !important;
+}
+/* fin nav */
+.content{
+    background-color:  #b3b6b7;
+}
+body{
+    background-color: #b3b6b7;
+}
