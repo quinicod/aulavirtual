@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
-from aula.models import User_asignatura, Curso, Asignatura, Seccion
+from aula.models import User_asignatura, Asignatura, Seccion, File_seccion
 from django.contrib.auth import authenticate, logout
 
 def index(request):
@@ -14,6 +14,6 @@ def asignaturas(request):
 
 def asigAula(request, nombre):
     asignatura=Asignatura.objects.get(slug=nombre)
-    secciones=Seccion.objects.filter(asignatura=asignatura.id)
+    secciones=Seccion.objects.filter(asignatura=asignatura.id).order_by('created')
 
     return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones})

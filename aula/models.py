@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
 from django.template import defaultfilters
+import os
 
 class Calendario(models.Model):
     ref=models.CharField(max_length=100, verbose_name="Referencia")
@@ -109,7 +110,7 @@ class Seccion(models.Model):
         ordering=["-created"]
 
     def __str__(self):
-        return self.Titulo
+        return self.titulo
 
 class File_seccion(models.Model):
     id_seccion=models.ForeignKey(Seccion, verbose_name="Seccion", on_delete=models.CASCADE)
@@ -117,6 +118,12 @@ class File_seccion(models.Model):
     descripcion=models.TextField(max_length=500, verbose_name="Descripción", null=True, blank=True)
     created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    def filename(self):
+        return os.path.basename(self.file.name)
+    def formato(self):
+        formato=self.file.name[-3::]
+        return formato
 
     class Meta:
         verbose_name="File_seccion"

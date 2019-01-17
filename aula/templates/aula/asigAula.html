@@ -8,17 +8,36 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ asignatura.nombre }}</h1>
-<div class="container-flud">
-    <div class="col-md-8">
+<div class="row titulo">
+    <h1>{{ asignatura.nombre }}</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
         <ul>
-        {% for s in secciones %}
-            <li>{{ s.titulo }}</li>
-        {% endfor %}
+        {% if secciones %}
+            {% for s in secciones %}
+                <p><strong>{{ s.titulo }}</strong></p>
+                {% for f in s.file_seccion_set.all %}
+                    {% if f.formato == 'pdf' %}
+                        <img src="{% static 'imagenes/pdf.png' %}" width="50">
+                        <a href="{{ f.file.url }}">{{ f.filename }}</a>
+                    {% endif %}
+                    {% if f.formato == 'rar' %}
+                        <img src="{% static 'imagenes/rar.png' %}" width="40">
+                        <a href="{{ f.file.url }}">{{ f.filename }}</a>
+                    {% endif %}
+                    <p>{{ f.descripcion }}</p>
+                {% endfor %}
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>No hay secciones</p>
+        {% endif %}
         </ul>
     </div>
-    <div class="col-md-4">
-        <p>Foro</p>
+    <div class="col-md-5 offset-md-2">
+        {% include 'foro/foro.html' %}
     </div>
 </div>
 {% comment %} <section class="gallery-block cards-gallery">
