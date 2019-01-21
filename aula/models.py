@@ -18,7 +18,7 @@ class Calendario(models.Model):
         return self.ref
 
 class Perfil(models.Model):
-    id_user=models.OneToOneField(User, verbose_name="Id usuario", on_delete=models.CASCADE)
+    id_user=models.OneToOneField(User, verbose_name="Id usuario", on_delete=models.CASCADE, related_name="perfil")
     tipo=models.CharField(max_length=3, verbose_name="Tipo")
     id_calendario=models.OneToOneField(Calendario, verbose_name="Id Calendario", on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")

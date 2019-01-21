@@ -1,0 +1,38 @@
+<!--heredamos de base.html y definimos los bloques que queramos-->
+{% extends "noticias/base.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+Register
+{% endblock %}
+{% block css %}
+{% load static %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-9 mx-auto mb-5">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <h3 class="mb-4">Registro</h3>
+                {{ form.as_p }}
+                {% if errors|length > 0 %}
+                    <ul>
+                        {% for error in errors %}
+                            <li class="error-message">{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <input type="submit" class="btn btn-primary btn-block" value="Confirmar">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ <!--finaliza el bloque content-->
+<!--heredamos el bloque footer-->
+{% block footer %}
+
+{% endblock %}
+<!--finaliza el bloque footer-->

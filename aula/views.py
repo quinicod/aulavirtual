@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from aula.models import User_asignatura, Asignatura, Seccion, File_seccion
 from django.contrib.auth import authenticate, logout
+from foro.models import Post, Respuesta
+from foro.forms import nuevoPostForm, nuevaRespuestaForm
 
 def index(request):
     return render(request, 'aula/index.html', {})
@@ -15,5 +17,8 @@ def asignaturas(request):
 def asigAula(request, nombre):
     asignatura=Asignatura.objects.get(slug=nombre)
     secciones=Seccion.objects.filter(asignatura=asignatura.id).order_by('created')
+    foros=Post.objects.filter(id_asignatura=asignatura.id).order_by('created')
+    nuevoPost=nuevoPostForm()
+    nuevaRespuesta=nuevaRespuestaForm()
 
-    return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones})
+    return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta})

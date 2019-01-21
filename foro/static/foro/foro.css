@@ -1,0 +1,11 @@
+.bottonPost{
+    font-size: 8px;
+}
+.bottonBorrar{
+    font-size: 10px;
+    color: white;
+    visibility: hidden;
+}
+.media-body:hover .bottonBorrar{
+    visibility: visible;
+}

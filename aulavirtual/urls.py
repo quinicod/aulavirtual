@@ -20,8 +20,10 @@ from django.conf import settings
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    # path('', include(core.urls)),
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
+    path('', include('registration.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('aula/', include('aula.urls')),
     path('noticias/', include('noticias.urls')),

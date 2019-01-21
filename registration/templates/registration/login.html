@@ -1,0 +1,38 @@
+<!--heredamos de base.html y definimos los bloques que queramos-->
+{% extends "aula/base.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+Login
+{% endblock %}
+{% block css %}
+{% load static %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if 'register' in request.GET %}
+        <p style="color: green;">Usuario registrado correctamente, ya puedes identificarte</p>
+    {% endif %}
+    <div class="row mt-3">
+        <div class="col-md-9 mx-auto mb-5">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <h3 class="mb-4">Iniciar sesión</h3>
+                {% if form.non_field_errors %}
+                    <p style="color: red;">Usuario o contraseña incorrecos, prueba de nuevo.</p>
+                {% endif %}
+                <input type="text" name="username" autofocus maxlenght="50" required class="form-control" placeholder="Nombre de usuario">
+                <input type="password" name="password" required class="form-control" placeholder="password">
+                <input type="submit" class="btn btn-primary btn-block" value="Acceder">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ <!--finaliza el bloque content-->
+<!--heredamos el bloque footer-->
+{% block footer %}
+
+{% endblock %}
+<!--finaliza el bloque footer-->
