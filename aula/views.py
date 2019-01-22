@@ -1,8 +1,9 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
-from aula.models import User_asignatura, Asignatura, Seccion, File_seccion
+from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perfil
 from django.contrib.auth import authenticate, logout
 from foro.models import Post, Respuesta
-from foro.forms import nuevoPostForm, nuevaRespuestaForm
+from foro.forms import nuevoPostForm, nuevaRespuestaForm, nuevaSeccion
+from django.http import HttpResponseRedirect
 
 def index(request):
     return render(request, 'aula/index.html', {})
@@ -20,5 +21,17 @@ def asigAula(request, nombre):
     foros=Post.objects.filter(id_asignatura=asignatura.id).order_by('created')
     nuevoPost=nuevoPostForm()
     nuevaRespuesta=nuevaRespuestaForm()
+    user=request.user
+    perfil=Perfil.objects.get(id_user=user)
+    form_class=nuevaSeccion()
+    return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta,'perfil':perfil,'nuevaSeccion':form_class})
 
-    return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta})
+def anyadirSeccion(request, id):
+    if request.method == 'POST':
+        anyadirSeccion=nuevaSeccion(data=request.POST)
+        if anyadirSeccion.is_valid():
+            titulo=request.POST.get('titulo','')
+            asignatura=Asignatura.objects.get(id=id)
+            seccion=Seccion(titulo=titulo, asignatura=asignatura)
+            seccion.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

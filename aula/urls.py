@@ -6,4 +6,6 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('asignaturas/', views.asignaturas, name="asignaturas"),
     path('asignaturas/<nombre>', views.asigAula, name="asigAula"),
+    path('asignaturas/nuevaSeccion/<int:id>', views.anyadirSeccion, name="nuevaSeccion"),
+    
 ]

@@ -19,7 +19,7 @@
       {% if p.usuario.id_user.id == user.id%}
         <a href="{% url 'borrarPost' p.id %}"><button class="btn btn-danger btn-xs bottonBorrar offset-md-11"><i class="fas fa-trash-alt"></i></button></a>
       {% endif %}
-      <button class="btn btn-secondary btn-xs bottonPost offset-md-11" onclick="show(bRespuesta_{{p.id}}, Respuesta_{{p.id}});" id="bRespuesta_{{p.id}}" style="display:block;"> Responder</button>
+      <button class="btn btn-secondary btn-xs bottonPost offset-md-10" onclick="show(bRespuesta_{{p.id}}, Respuesta_{{p.id}});" id="bRespuesta_{{p.id}}" style="display:block;"> Responder</button>
         <div id="Respuesta_{{p.id}}" style="display:none;">
           <form action="{% url 'nuevaRespuesta' %}" method='POST'>
             {% csrf_token %}
@@ -54,6 +54,7 @@
     </div>
   </div>
 {% endfor %}
+
 <div class="row p-3">
   <form action="{% url 'nuevoPost' %}" method='POST'>
   {% csrf_token %}
