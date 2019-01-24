@@ -18,24 +18,85 @@
         <ul>
         {% if secciones %}
             {% for s in secciones %}
-                <div class="row">
+                <div class="row material">
                     <div class="col-md-10">
                         <p><strong>{{ s.titulo }}</strong></p>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-secondary btn-xs bottonPost"> + Material</button>
+                        {% if perfil.tipo == 'ALU' %}
+                        <div class="">
+                            <button class="btn btn-secondary btn-xs bottonPost eliminarMaterial" data-toggle="modal" data-target="#material_{{ s.id }}"> + Material</button>
+                            <a href="{% url 'borrarMaterial' s.id %}" class="btn btn-danger btn-xs bottonBorrarN eliminarMaterial" onclick="return confirm('Estas seguro que quieres eliminar esta sección?')"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                        {% endif %}
+                        {% comment %} Modal Material {% endcomment %}
+                        <div class="modal fade" id="material_{{ s.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Añadir Material</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{% url 'anyadirMaterial' s.id %}" method='POST' id="addMAterial_{{ s.id }}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ formaterial|crispy }}
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary" form="addMAterial_{{ s.id }}">Añadir</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                     </div>
                 </div>
                 {% for f in s.file_seccion_set.all %}
                     {% if f.formato == 'pdf' %}
-                        <img src="{% static 'imagenes/pdf.png' %}" width="50">
-                        <a href="{{ f.file.url }}">{{ f.filename }}</a>
+                        <div class="material">
+                            <img src="{% static 'imagenes/pdf.png' %}" width="50">
+                            <a href="{{ f.file.url }}">{{ f.filename }}</a>
+                            <p>{{ f.descripcion }}</p>
+                            {% if perfil.tipo == 'ALU' %}
+                                <a href="{% url 'editarMaterial' s.id %}" class="eliminarMaterial" data-toggle="modal" data-target="#editMaterial_{{ f.id }}">Editar</a>
+                                <a href="{% url 'borrarMaterial' s.id %}" class="eliminarMaterial" onclick="return confirm('Estas seguro que quieres eliminar este material?')">Eliminar material</a>
+                            {% endif %}
+                        </div>
                     {% endif %}
                     {% if f.formato == 'rar' %}
-                        <img src="{% static 'imagenes/rar.png' %}" width="40">
-                        <a href="{{ f.file.url }}">{{ f.filename }}</a>
+                        <div class="material">
+                            <img src="{% static 'imagenes/rar.png' %}" width="40">
+                            <a href="{{ f.file.url }}">{{ f.filename }}</a>
+                            <p>{{ f.descripcion }}</p>
+                            {% if perfil.tipo == 'ALU' %}
+                                <a href="{% url 'editarMaterial' s.id %}" class="eliminarMaterial" data-toggle="modal" data-target="#editMaterial_{{ f.id }}">Editar</a>
+                                <a href="{% url 'borrarMaterial' s.id %}" class="eliminarMaterial" onclick="return confirm('Estas seguro que quieres eliminar este material?')">Eliminar material</a>
+                            {% endif %}
+                        </div>
                     {% endif %}
-                    <p>{{ f.descripcion }}</p>
+                    <!-- Modal Seccion -->
+                    <div class="modal fade" id="editMaterial_{{ f.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Editar Sección</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {{ materialForm|crispy }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" form="formSeccion">Cerrar</button>
+                            {% comment %} <button type="submit" class="btn btn-primary">Actualizar</button> {% endcomment %}
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 {% endfor %}
                 <hr>
             {% endfor %}
@@ -57,7 +118,7 @@
     </div>
 
     
-<!-- Modal -->
+<!-- Modal Seccion -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -68,14 +129,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="{% url 'nuevaSeccion' asignatura.id %}" method='POST'>
+            <form action="{% url 'nuevaSeccion' asignatura.id %}" method='POST' id="formSeccion">
               {% csrf_token %}
               {{ nuevaSeccion|crispy }}
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Añadir</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" form="formSeccion">Cerrar</button>
+            <button type="submit" class="btn btn-primary" form="formSeccion">Añadir</button>
           </div>
         </div>
       </div>

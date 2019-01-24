@@ -9,3 +9,7 @@
 .media-body:hover .bottonBorrar{
     visibility: visible;
 }
+.bottonBorrarN{
+    font-size: 10px;
+    color: white;
+}

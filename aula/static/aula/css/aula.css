@@ -69,3 +69,10 @@
 }
 
 /* fin */
+
+.eliminarMaterial{
+  visibility: hidden;
+}
+.material:hover .eliminarMaterial{
+  visibility: visible;
+}
