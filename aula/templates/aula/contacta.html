@@ -1,0 +1,89 @@
+<!--heredamos de base.html y definimos los bloques que queramos-->
+{% extends "aula/base.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+ <!--establecemos el titulo en el bloque title-->
+Contáctanos
+{% endblock %}
+{% block css %}
+ <!--establecemos el titulo en el bloque title-->
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/aula/css/contacta.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if 'ok' in request.GET %}
+	<div class="row text-center alert alert-success">
+			Mensaje enviado correctamente al Administrador de la pagina
+	</div>
+{% endif %}
+<div class="contact_form">
+	<div class="formulario">			
+        <h1>Contáctanos</h1>
+		<h3>Envianos tu pregunta y te contestaremos en un plazo de 2 a 3 dias.</h3>
+        <form action="{% url "enviarEmail" %}" method="post">	
+			{% csrf_token %}
+			<div class='form-group'>
+              <div class="input-group">
+                {{ form.name }}
+              </div>
+              {{ form.name.errors }}
+            </div>
+			<div class='form-group'>
+              <div class="input-group">
+                {{ form.email }}
+              </div>
+              {{ form.email.errors }}
+            </div>
+			<div class='form-group'>
+              <div class="input-group">
+                {{ form.asunto }}
+              </div>
+              {{ form.asunto.errors }}
+            </div>
+			<div class='form-group'>
+              <div class="input-group">
+                {{ form.mensaje }}
+              </div>
+              {{ form.mensaje.errors }}
+            </div>
+			<input type="submit" class="btn btn-danger btn-block" value="Enviar">
+
+			{% comment %} <p>
+				<label for="nombre" class="colocar_nome">Nombre Completo:
+					<span class="obrigatorio">*</span>
+				</label>
+				<input type="text" name="nombre" id="nombre" required="obrigatorio" placeholder="Nombre Completo">
+			</p>
+							
+			<p>
+				<label for="email" class="colocar_email">Email
+					<span class="obrigatorio">*</span>
+				</label>
+				<input type="email" name="email" id="email" required="obrigatorio" placeholder="email">
+			</p>		
+							
+			<p>
+				<label for="assunto" class="colocar_asunto">Asunto
+					<span class="obrigatorio">*</span>
+				</label>
+				<input type="text" name="asunto" id="assunto" required="obrigatorio" placeholder="Asunto">
+			</p>		
+							
+			<p>
+				<label for="mensagem" class="colocar_mensagem">Mensagem
+					<span class="obrigatorio">*</span>
+				</label>                     
+                <textarea name="introduzir_mensagem" class="texto_mensagem" id="mensagem" required="obrigatorio" placeholder="Escreve a tua mensagem aqui..."></textarea> 
+            </p>	  								
+							
+			<button type="submit" name="enviar_formulario" id="enviar"><p>Enviar</p></button>
+
+			<p class="aviso">
+				<span class="obrigatorio"> * </span>Precisas mesmo de preencher estes campos.
+			</p>					 {% endcomment %}
+						
+			</form>
+		</div>	
+	</div>
+{% endblock %}

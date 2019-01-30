@@ -13,40 +13,52 @@ Index
 
 {% block content %}
 {% load bootstrap_pagination %}
+{% load auth_extras %}
 <div class="text-center">
     <h1 class="jumbotrom titulo">Sección noticias</h1> 
 </div>
-{% for n in noticias %}
-    <div class="row">
-            <div class="col-md-3 offset-md-1">
-                <img src="{{ n.imagen.url }}" width="200" height='200' class="img-thumbnail">
-            </div>
-            <div class="card-body cardNoticias col-md-6">
-                <h5 class="card-title"><strong>{{ n.titulo }}</strong></h5>
-                {{ n.contenido|safe}} <br>
-            </div>
-            <div class="col-md-11 text-right">
-                <p>Publicado: {{ n.created }}</p>
-            </div>
+{% if request.user|has_group:'Profesor' %}
+<div class="row">
+    <div class="float-md-right">
+        <a href="{% url 'add_noticia' %}" class="btn btn-primary"> Añadir noticia</a>
     </div>
-    <div class="col-md-12">
-        <hr>
+</div>
+{% endif %}
+{% for n in noticias %}
+    <div class="row justify-content-center">
+        <div class="col-10 mt-3">
+            <div class="card">
+                <div class="card-horizontal">
+                    <div class="img-square-wrapper">
+                        <img class="" src="{{ n.imagen.url }}" alt="Card image cap" width="300">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ n.titulo }}</h4>
+                        <p class="card-text">{{ n.contenido|safe}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Publicado: {{ n.created }}</small>
+                </div>
+            </div>
+        </div>
     </div>
 {% endfor %}
 <br>
 <div class="row">
-    <div class="col-md-5 offset-md-5">
-        <a href="#">Inicia sesión para acceder al aula</a>
-    </div>
-    <div class="col-md-2">
-        {% bootstrap_paginate noticias %}
-    </div>
+    {% if not user.is_authenticated %}
+        <div class="col-md-5 offset-md-5">
+            <a href="{% url 'login' %}">Inicia sesión para acceder al aula</a>
+        </div>
+        <div class="col-md-2">
+            {% bootstrap_paginate noticias %}
+        </div>
+     {% else %}
+        <div class="col-md-2 offset-md-9">
+            {% bootstrap_paginate noticias %}
+        </div>
+    {% endif %}
+   
 </div>
 
 {% endblock %}
- <!--finaliza el bloque content-->
-<!--heredamos el bloque footer-->
-{% block footer %}
-
-{% endblock %}
-<!--finaliza el bloque footer-->

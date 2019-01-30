@@ -1,0 +1,25 @@
+<!--heredamos de base.html y definimos los bloques que queramos-->
+{% extends "aula/base.html" %}
+<!--heredamos el bloque title-->
+{% block title %}
+ <!--establecemos el titulo en el bloque title-->
+Index
+{% endblock %}
+{% block css %}
+ <!--establecemos el titulo en el bloque title-->
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/noticias/css/noticias.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <form action="" method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }} 
+    <div class="text-center">
+        <input type="submit" class="btn btn-primary btn-block" value="Crear Noticia" />
+    </div>
+</form>
+</div>
+{% endblock %}

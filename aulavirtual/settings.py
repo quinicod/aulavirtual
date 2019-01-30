@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'registration',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'foro',
     'bootstrap_pagination',
     'crispy_forms',
+    
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -135,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
 
 MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = "noticias/"
@@ -146,5 +149,11 @@ CKEDITOR_CONFIGS = {
     },
 }
 
-LOGIN_REDIRECT_URL = '/noticias'
+LOGIN_REDIRECT_URL = '/aula'
 LOGOUT_REDIRECT_URL = '/noticias'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'joaquinguzmangarciaplata@gmail.com'
+EMAIL_HOST_PASSWORD = 'Showlucar@'
+EMAIL_PORT = 587

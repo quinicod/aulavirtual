@@ -3,6 +3,8 @@ from foro.forms import nuevoPostForm, nuevaRespuestaForm
 from django.http import HttpResponseRedirect
 from .models import Post, Respuesta
 from aula.models import Asignatura, Perfil
+from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import DeleteView
 
 def nuevoPost(request):
     nuevoPost=nuevoPostForm()

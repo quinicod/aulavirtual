@@ -23,7 +23,7 @@ class anyadirMaterial(ModelForm):
 class MaterialForm(forms.ModelForm):
     class Meta:
         model = File_seccion
-        fields= ['file','descripcion']
+        fields= ['descripcion']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

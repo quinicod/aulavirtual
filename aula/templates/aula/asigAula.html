@@ -9,6 +9,7 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
+{% load auth_extras %}
 <div class="row titulo">
     <h1>{{ asignatura.nombre }}</h1>
 </div>
@@ -23,7 +24,8 @@
                         <p><strong>{{ s.titulo }}</strong></p>
                     </div>
                     <div class="col-md-2">
-                        {% if perfil.tipo == 'ALU' %}
+                        {% comment %} {% if perfil.tipo in 'PRO' %}  {% endcomment %}
+                        {% if request.user|has_group:'Profesor' %}
                         <div class="">
                             <button class="btn btn-secondary btn-xs bottonPost eliminarMaterial" data-toggle="modal" data-target="#material_{{ s.id }}"> + Material</button>
                             <a href="{% url 'borrarMaterial' s.id %}" class="btn btn-danger btn-xs bottonBorrarN eliminarMaterial" onclick="return confirm('Estas seguro que quieres eliminar esta sección?')"><i class="fas fa-trash-alt"></i></a>
@@ -60,7 +62,7 @@
                             <img src="{% static 'imagenes/pdf.png' %}" width="50">
                             <a href="{{ f.file.url }}">{{ f.filename }}</a>
                             <p>{{ f.descripcion }}</p>
-                            {% if perfil.tipo == 'ALU' %}
+                            {% if request.user|has_group:'Profesor' %}
                                 <a href="{% url 'editarMaterial' s.id %}" class="eliminarMaterial" data-toggle="modal" data-target="#editMaterial_{{ f.id }}">Editar</a>
                                 <a href="{% url 'borrarMaterial' s.id %}" class="eliminarMaterial" onclick="return confirm('Estas seguro que quieres eliminar este material?')">Eliminar material</a>
                             {% endif %}
@@ -71,7 +73,7 @@
                             <img src="{% static 'imagenes/rar.png' %}" width="40">
                             <a href="{{ f.file.url }}">{{ f.filename }}</a>
                             <p>{{ f.descripcion }}</p>
-                            {% if perfil.tipo == 'ALU' %}
+                            {% if request.user|has_group:'Profesor' %}
                                 <a href="{% url 'editarMaterial' s.id %}" class="eliminarMaterial" data-toggle="modal" data-target="#editMaterial_{{ f.id }}">Editar</a>
                                 <a href="{% url 'borrarMaterial' s.id %}" class="eliminarMaterial" onclick="return confirm('Estas seguro que quieres eliminar este material?')">Eliminar material</a>
                             {% endif %}
@@ -88,11 +90,14 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                        <form action="{% url 'editarMaterial' asignatura.id %}" method='POST' id="editSeccion">
+                            {% csrf_token %}
                             {{ materialForm|crispy }}
                         </div>
+                        </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" form="formSeccion">Cerrar</button>
-                            {% comment %} <button type="submit" class="btn btn-primary">Actualizar</button> {% endcomment %}
+                            <button type="submit" class="btn btn-primary" form="editSeccion">Actualizar</button>
                         </div>
                         </div>
                     </div>
@@ -104,7 +109,7 @@
             <p>No hay secciones</p>
         {% endif %}
         </ul>
-  {% if perfil.tipo == 'ALU' %}
+  {% if request.user|has_group:'Profesor' %}
     <!-- Button trigger modal -->
     
     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">

@@ -3,12 +3,12 @@ from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perf
 from django.contrib.auth import authenticate, logout
 from foro.models import Post, Respuesta
 from foro.forms import nuevoPostForm, nuevaRespuestaForm, nuevaSeccion, anyadirMaterial, MaterialForm
+from aula.forms import Contacto
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import UpdateView
+from django.core.mail import send_mail, BadHeaderError
 
-def index(request):
-    return render(request, 'aula/index.html', {})
 
 def asignaturas(request):
     if request.user.is_authenticated:
@@ -58,11 +58,34 @@ def borrarMaterial(request, id):
     seccion.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def editarMaterial(request, id):
-    pass
+class editarMaterial(UpdateView):
+    model=File_seccion
+    form_class=MaterialForm
+    template_name='aula/asigAula.html'
 
-class updateSeccion(UpdateView):
+class updateSeccion(UpdateView): 
     model = Seccion
     form_class = MaterialForm
     template_name = 'aula/asigAula.html'
+
+def enviarEmail(request):
+    usuario = request.POST.get('name','')
+    subject = request.POST.get('asunto', '')
+    message = request.POST.get('mensaje', '')
+    from_email = request.POST.get('email', '')
+    if subject and message and from_email:
+        try:
+            # email al admin con la consulta del usuario
+            message= message+" \nConsulta de: "+usuario
+            send_mail(subject, message,'joaquinguzmangarciaplata@gmail.com', ['joaquinguzmangarciaplata@gmail.com'])
+            # email de confirmacion de envio al usuario
+            mensaje_confimacion='Su consulta se ha enviado correctamente al administrador de la pagina.'
+            send_mail(subject, mensaje_confimacion,'joaquinguzmangarciaplata@gmail.com', [from_email])
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+        return redirect(reverse('contacta')+"?ok")
+    else:
+        # In reality we'd use a form class
+        # to get proper validation errors.
+        return HttpResponse('Make sure all fields are entered and valid.')
 
