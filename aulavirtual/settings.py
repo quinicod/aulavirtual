@@ -149,7 +149,7 @@ CKEDITOR_CONFIGS = {
     },
 }
 
-LOGIN_REDIRECT_URL = '/aula'
+LOGIN_REDIRECT_URL = '/noticias'
 LOGOUT_REDIRECT_URL = '/noticias'
 
 EMAIL_USE_TLS = True

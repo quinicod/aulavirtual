@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import RedirectView
+from noticias.urls import noticias_patterns
 
 urlpatterns = [
     # path('', include(core.urls)),
@@ -27,7 +28,7 @@ urlpatterns = [
     path('', include('registration.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('aula/', include('aula.urls')),
-    path('noticias/', include('noticias.urls')),
+    path('noticias/', include(noticias_patterns)),
     path('foro/', include('foro.urls')),
     path('', RedirectView.as_view(url='noticias')), # redirige a la ruta de nombre aula de aula/urls.py
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

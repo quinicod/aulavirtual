@@ -14,15 +14,16 @@ Index
 {% block content %}
 {% load bootstrap_pagination %}
 {% load auth_extras %}
-<div class="text-center">
+<div class="row text-center">
     <h1 class="jumbotrom titulo">Sección noticias</h1> 
 </div>
-{% if request.user|has_group:'Profesor' %}
+{% if request.user|has_group:'Noticias' %}
 <div class="row">
-    <div class="float-md-right">
-        <a href="{% url 'add_noticia' %}" class="btn btn-primary"> Añadir noticia</a>
+    <div class="col-md-2 offset-md-10">
+        <a href="{% url 'noticias:add_noticia' %}" class="btn btn-primary"> Añadir noticia</a>
     </div>
 </div>
+<br>
 {% endif %}
 {% for n in noticias %}
     <div class="row justify-content-center">
@@ -39,12 +40,18 @@ Index
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Publicado: {{ n.created }}</small>
+                    {% if request.user|has_group:'Noticias' %}
+                        <div class="float-right">
+                            <a href="{% url 'noticias:edit_noticia' n.id %}">Editar</a>
+                            <a href="{% url 'noticias:deleteNoticia' n.id %}">Borrar</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 {% endfor %}
-<br>
+<br><br>
 <div class="row">
     {% if not user.is_authenticated %}
         <div class="col-md-5 offset-md-5">
@@ -54,11 +61,12 @@ Index
             {% bootstrap_paginate noticias %}
         </div>
      {% else %}
-        <div class="col-md-2 offset-md-9">
+        <div class="col-md-2 offset-md-10">
             {% bootstrap_paginate noticias %}
         </div>
     {% endif %}
    
 </div>
+<br><br>
 
 {% endblock %}

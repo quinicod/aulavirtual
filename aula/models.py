@@ -4,24 +4,9 @@ from django.contrib.auth.models import User
 from django.template import defaultfilters
 import os
 
-class Calendario(models.Model):
-    ref=models.CharField(max_length=100, verbose_name="Referencia")
-    created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
-    updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
-
-    class Meta:
-        verbose_name="Calendario"
-        verbose_name_plural="Calendarios"
-        ordering=["-created"]
-    
-    def __str__(self):
-        return self.ref
-
 class Perfil(models.Model):
     id_user=models.OneToOneField(User, verbose_name="Id usuario", on_delete=models.CASCADE)
-    tipo=models.CharField(max_length=3, verbose_name="Tipo")
     avatar=models.ImageField(upload_to='registration/perfil', null=True, blank=True, verbose_name='Avatar', default='aula/static/imagenes/alumno.png')
-    id_calendario=models.OneToOneField(Calendario, verbose_name="Id Calendario", on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -50,7 +35,6 @@ class Curso(models.Model):
     nombre=models.CharField(max_length=100, verbose_name="Nombre")
     siglas=models.CharField(max_length=10, verbose_name="Siglas")
     id_nivel=models.ForeignKey(Nivel, verbose_name="Id_nivel", on_delete=models.CASCADE)
-    id_calendario=models.OneToOneField(Calendario, verbose_name="Id Calendario", on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
 
@@ -61,21 +45,6 @@ class Curso(models.Model):
 
     def __str__(self):
         return self.nombre
-
-# class Calendario_curso(models.Model):
-#     id_curso=models.OneToOneField(Curso, verbose_name="Id Curso", on_delete=models.CASCADE)
-#     id_calendario=models.OneToOneField(Calendario, verbose_name="Id Calendario", on_delete=models.CASCADE)
-#     created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
-#     updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
-
-#     class Meta:
-#         verbose_name="Calendario_curso"
-#         verbose_name_plural="Calendario_cursos"
-#         ordering=["-created"]
-
-#     def __str__(self):
-#         return str(self.id_calendario)
-
 
 
 class Asignatura(models.Model):

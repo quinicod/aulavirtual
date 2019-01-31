@@ -10,7 +10,8 @@ Login
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<br><br>
+{% comment %} <div class="container">
     {% if 'register' in request.GET %}
         <div class="alert alert-success text-center" role="alert">Usuario registrado correctamente, ya puedes identificarte</div>
     {% endif %}
@@ -28,7 +29,45 @@ Login
             </form>
         </div>
     </div>
+</div> {% endcomment %}
+<div class="container col-md-3">
+    
+    <div class="card">
+    <article class="card-body">
+        <h4 class="card-title text-center mb-4 mt-1">Iniciar Sesión</h4>
+        <hr>
+        {% if 'register' in request.GET %}
+            <p class="alert alert-success text-center" role="alert">Usuario registrado correctamente, ya puedes identificarte</p>
+        {% endif %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger text-center" role="alert">Usuario o contraseña incorrecos, prueba de nuevo.</div>
+            {% endif %}
+            <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input name="username" class="form-control" placeholder="Nombre de usuario" type="text">
+            </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input class="form-control" placeholder="******" name="password" type="password">
+            </div> <!-- input-group.// -->
+            </div> <!-- form-group// -->
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block"> Acceder  </button>
+            </div> <!-- form-group// -->
+        </form>
+    </article>
+    </div>
 </div>
+
 {% endblock %}
  <!--finaliza el bloque content-->
 <!--heredamos el bloque footer-->

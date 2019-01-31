@@ -8,6 +8,9 @@ Asignaturas
 {% endblock %}
 
 {% block content %}
+<div class="row text-center">
+    <h1 class="jumbotrom titulo">Asignaturas</h1> 
+</div>
 <section class="gallery-block cards-gallery">
 	<div class="container">
 	    <div class="heading">
@@ -25,6 +28,10 @@ Asignaturas
                             <p class="text-muted card-text">{{ a.id_asignatura.nombre }}</p>
                         </div>
                     </div>
+                </div>
+            {% empty %}
+                <div class="text-center empty">
+                    <h4>No tiene asignaturas asignadas.</h4>
                 </div>
             {% endfor %}
 	    </div>

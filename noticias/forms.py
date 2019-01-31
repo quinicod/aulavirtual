@@ -9,5 +9,10 @@ class NoticiasForm(forms.ModelForm):
         widgets={
             'titulo': forms.TextInput(attrs={'class':'form-control'}),
             'contenido': forms.Textarea(attrs={'class':'form-control'}),
-            'imagen': forms.FileInput(attrs={'class':'form-control-file'}),
+            'imagen': forms.FileInput(attrs={'class':'form-control-file', 'required':'true'}),
         }
+        # labels={
+        #     'titulo': 'Titulo',
+        #     'contenido': 'Contenido',
+        #     'imagen': 'Imagen'
+        # }
