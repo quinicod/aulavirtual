@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
-from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perfil
+from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perfil, Evento
 from django.contrib.auth import authenticate, logout
 from foro.models import Post, Respuesta
 from foro.forms import nuevoPostForm, nuevaRespuestaForm, nuevaSeccion, anyadirMaterial, MaterialForm
@@ -21,6 +21,7 @@ def asigAula(request, nombre):
     asignatura=Asignatura.objects.get(slug=nombre)
     secciones=Seccion.objects.filter(asignatura=asignatura.id).order_by('created')
     foros=Post.objects.filter(id_asignatura=asignatura.id).order_by('created')
+    eventos=Evento.objects.filter(asignatura=asignatura).order_by('created')
     nuevoPost=nuevoPostForm()
     nuevaRespuesta=nuevaRespuestaForm()
     user=request.user
@@ -28,7 +29,9 @@ def asigAula(request, nombre):
     form_class=nuevaSeccion()
     formaterial=anyadirMaterial()
     materialForm=MaterialForm()
-    return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta,'perfil':perfil,'nuevaSeccion':form_class,'formaterial':formaterial,'materialForm':materialForm})
+    return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,
+    'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta,'perfil':perfil,
+    'nuevaSeccion':form_class,'formaterial':formaterial,'materialForm':materialForm, 'eventos':eventos})
 
 def anyadirSeccion(request, id):
     if request.method == 'POST':

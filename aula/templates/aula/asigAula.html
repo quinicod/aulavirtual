@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <ul>
         {% if secciones %}
             {% for s in secciones %}
@@ -118,7 +118,35 @@
   {% endif %}
     </div>
 
-    <div class="col-md-5 offset-md-2">
+    <div class="col-md-2">
+        {% for e in eventos %}
+            <div class="card">
+                <div class="card-header text-center">
+                    Eventos
+                </div>
+                <div class="card-body">
+                    {{ e.descripcion }}
+                    {{ e.fecha_inicio|date:'Y-m-d H:i' }}
+                    <button onclick="countdown({{e.id}}, {{ e.fecha_inicio|date:'Y' }}, {{ e.fecha_inicio|date:'m' }},{{ e.fecha_inicio|date:'d' }},{{ e.fecha_inicio|date:'H' }},{{ e.fecha_inicio|date:'i' }},{{ e.fecha_inicio|date:'s' }});">Ver</button>
+                    <script>countdown('restante_{{e.id}}');</script>
+                    <div id='contador_{{ e.id }}'></div>
+                    <div id="restante_{{ e.id }}"></div>
+                </div>
+            </div>
+            
+        {% empty %}
+            <div class="card">
+                <div class="card-header">
+                    Eventos
+                </div>
+                <div class="card-body text-center">
+                    Sin eventos
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-5 offset-md-1">
         {% include 'foro/foro.html' %}
     </div>
 
@@ -145,9 +173,40 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>  
+
+
 
 {% endblock %}
+{% block script %}
 
-{% block footer %}
+<script>
+    function countdown(id, ano, mes, dia, h, m, s){
+        var fecha=new Date(ano,mes,dia,h,m,s);
+        var hoy=new Date();
+        var dias=0;
+        var horas=0;
+        var minutos=0;
+        var segundos=0;
+
+        if (fecha>hoy){
+            var diferencia=(fecha.getTime()-hoy.getTime())/1000;
+            dias=Math.floor(diferencia/86400);
+            diferencia=diferencia-(86400*dias);
+            horas=Math.floor(diferencia/3600);
+            diferencia=diferencia-(3600*horas);
+            minutos=Math.floor(diferencia/60);
+            diferencia=diferencia-(60*minutos);
+            segundos=Math.floor(diferencia);
+            document.getElementById('contador_'+id).innerHTML='Queda ' + dias + ' D&iacute;as, ' + horas + ' Horas, ' + minutos + ' Minutos, ' + segundos + ' Segundos';
+
+            if (dias>0 || horas>0 || minutos>0 || segundos>0){
+                setTimeout("countdown(\"" + id + "\",\"" + ano + "\",\"" + mes + "\",\"" + dias + "\",\"" + horas + "\",\"" + minutos + "\",\"" + segundos + "\")",1000);
+            }
+    }
+    else{
+        document.getElementById('restante_'+id).innerHTML='Quedan ' + dias + ' D&iacute;as, ' + horas + ' Horas, ' + minutos + ' Minutos, ' + segundos + ' Segundos';
+    }
+}
+</script>
 {% endblock %}

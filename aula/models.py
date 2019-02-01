@@ -116,3 +116,22 @@ class User_asignatura(models.Model):
 
     def __str__(self):
         return (str(self.id_user)+" "+str(self.id_asignatura))
+
+class Evento(models.Model):
+    descripcion=models.CharField(max_length=500, verbose_name="Descripción")
+    asignatura=models.ForeignKey(Asignatura, verbose_name='Asignatura', on_delete=models.CASCADE)
+    fecha_inicio=models.DateTimeField(verbose_name="Fecha de inicio")
+    created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    class Meta:
+        verbose_name="Evento"
+        verbose_name_plural="Eventos"
+        ordering=["-created"]
+
+    def __str__(self):
+        return (str(self.asignatura)+" "+str(self.fecha_inicio))
+
+class File_Evento(models.Model):
+    file=models.FileField(upload_to="aula/eventos/files")
+    evento=models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.CASCADE)
