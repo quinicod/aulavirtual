@@ -84,3 +84,16 @@ body{
   padding-bottom: 30%;
   padding-left: 35%;
 }
+
+.retroclockbox_counter{
+  background-image: -moz-linear-gradient(top,#b8b0af 0%,#f2ecea 100%);
+  background-image: -webkit-linear-gradient(top,#b8b0af 0%,#f2ecea 100%);
+  background-image: -o-linear-gradient(top,#b8b0af 0%,#f2ecea 100%);
+  background-image: -ms-linear-gradient(top,#b8b0af 0%,#f2ecea 100%);
+  background-image: linear-gradient(top,#b8b0af 0%,#f2ecea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position:relative;font-size:1.2em;
+  font-family: 'Yantramanav', sans-serif;
+  font-weight:900;text-align: center;
+}

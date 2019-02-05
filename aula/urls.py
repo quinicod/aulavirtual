@@ -12,6 +12,7 @@ urlpatterns = [
     path('asignaturas/editarMaterial/<int:id>', views.editarMaterial.as_view(), name="editarMaterial"),
     path('contactanos', views_bc.Contacta.as_view(), name="contacta"),
     path('contactanos/enviarEmail', views.enviarEmail, name="enviarEmail"),
+    path('asignaturas/entregaEvento/<int:id>', views.entregaEvento, name="entregaEvento"),
 
     
 ]

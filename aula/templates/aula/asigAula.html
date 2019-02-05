@@ -9,7 +9,9 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
+{% load index %}
 {% load auth_extras %}
+{% load checkFileEvento %}
 <div class="row titulo">
     <h1>{{ asignatura.nombre }}</h1>
 </div>
@@ -118,16 +120,24 @@
   {% endif %}
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-3">
         {% for e in eventos %}
             <div class="card">
                 <div class="card-header text-center">
-                    Eventos
+                    Evento: {{ e.fecha_inicio|date:'d-m-Y H:i' }}
                 </div>
-                <div class="card-body">
-                    {{ e.descripcion }}
-                    {{ e.fecha_inicio|date:'Y-m-d H:i' }}
-                    <div id="retroclockbox_counter{{ e.id }}"></div>
+                <div class="card-body text-center">
+                    <strong>{{ e.descripcion }}</strong>
+                    <div id="retroclockbox_counter" class="retroclockbox_counter"><p id="demo{{ e.id }}"></p></div>
+                        {% if request.user|checkFileEvento:e.id %}
+                            <P class="alert-success">ENTREGADO</P>
+                        {% else %}
+                            <form action="{% url 'entregaEvento' e.id %}" method='POST' enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    {{ eventoForm|crispy }}
+                                    <button type="submit" class="btn btn-secondary btn-xs bottonPost">Entregar</button>
+                            </form>
+                        {% endif %}
                 </div>
             </div>
             
@@ -143,7 +153,7 @@
         {% endfor %}
     </div>
 
-    <div class="col-md-5 offset-md-1">
+    <div class="col-md-5">
         {% include 'foro/foro.html' %}
     </div>
 
@@ -172,19 +182,70 @@
       </div>
     </div>  
 
-
-
 {% endblock %}
 {% block script %}
 <script>
-$(function(){
-	var i = 1;
-	$('#retroclockbox_counter1').flipcountdown({
-		tick:function(){
-			return i++;
-		}
-	});
-})
+function countDown(i,ano,mes,dia,hora,min){
+        var countDownDate = new Date("May 5, 2019 12:00:00").getTime();
+        mes=mes-1;
+        var countDownDate = new Date(ano,mes,dia,hora,min,00).getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Display the result in the element with id="demo"
+        id='demo'+i;
+        id=id.replace(/ /g, "");
+        console.log(id);
+        document.getElementById(id).innerHTML = days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s ";
+        
+
+        // If the count down is finished, write some text 
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById(id).innerHTML = "Finalizado";
+        }
+        }, 1000);
+}
+
+$( document ).ready(function() {
+var evento = '{{ json_eventos|safe|escapejs }}';
+console.log(evento);
+var primerDato = Array();
+datos = evento.split('{');
+for(var i=1; i<=datos.length;i++){
+    dato0 = datos[i].split('(');
+    dato1 = datos[2].split('(');
+
+    dato01 = dato0[1].split(',');
+    dato011 = dato0[0].split(':');
+    dato011 = dato011[1].split(',');
+    dato011 = dato011[0];
+    primerDato[0] = dato011;
+    primerDato[1] = dato01[0];
+    primerDato[2] = dato01[1];
+    primerDato[3] = dato01[2];
+    primerDato[4] = dato01[3];
+    primerDato[5] = dato01[4];
+    console.log(primerDato[0]);
+    countDown(primerDato[0],primerDato[1],primerDato[2],primerDato[3],primerDato[4],primerDato[5]);
+
+    }
+});
+
+
 </script>
 
 {% endblock %}

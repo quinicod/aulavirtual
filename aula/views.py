@@ -1,13 +1,15 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
-from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perfil, Evento
+from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perfil, Evento, File_Evento
 from django.contrib.auth import authenticate, logout
 from foro.models import Post, Respuesta
-from foro.forms import nuevoPostForm, nuevaRespuestaForm, nuevaSeccion, anyadirMaterial, MaterialForm
+from foro.forms import nuevoPostForm, nuevaRespuestaForm
+from .forms import nuevaSeccion, anyadirMaterial, MaterialForm, EventoForm
 from aula.forms import Contacto
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import UpdateView
 from django.core.mail import send_mail, BadHeaderError
+from django.core.serializers import serialize
 
 
 def asignaturas(request):
@@ -29,9 +31,14 @@ def asigAula(request, nombre):
     form_class=nuevaSeccion()
     formaterial=anyadirMaterial()
     materialForm=MaterialForm()
+    eventoForm=EventoForm()
+    # json eventos
+    event = [{"pk": e.pk, "fecha": e.fecha_inicio} for e in eventos]
+    # Comprobar si el alumno ha entregado tareas
     return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,
     'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta,'perfil':perfil,
-    'nuevaSeccion':form_class,'formaterial':formaterial,'materialForm':materialForm, 'eventos':eventos})
+    'nuevaSeccion':form_class,'formaterial':formaterial,'materialForm':materialForm, 'eventos':eventos,'json_eventos':event,
+    'eventoForm':eventoForm})
 
 def anyadirSeccion(request, id):
     if request.method == 'POST':
@@ -91,4 +98,16 @@ def enviarEmail(request):
         # In reality we'd use a form class
         # to get proper validation errors.
         return HttpResponse('Make sure all fields are entered and valid.')
+
+def entregaEvento(request, id):
+    if request.method == 'POST':
+        entrega=EventoForm(request.POST, request.FILES)
+        if entrega.is_valid():
+            file=request.FILES.get('file')
+            alumno=request.user
+            evento=Evento.objects.get(id=id)
+            file_evento=File_Evento(file=file, alumno=alumno, evento=evento)
+            file_evento.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 

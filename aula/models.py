@@ -133,5 +133,6 @@ class Evento(models.Model):
         return (str(self.asignatura)+" "+str(self.fecha_inicio))
 
 class File_Evento(models.Model):
+    alumno=models.ForeignKey(User, verbose_name="Alumno", on_delete=models.CASCADE)
     file=models.FileField(upload_to="aula/eventos/files")
-    evento=models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.CASCADE)
+    evento=models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.CASCADE, related_name='fileEventos')
