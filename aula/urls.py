@@ -13,6 +13,7 @@ urlpatterns = [
     path('contactanos', views_bc.Contacta.as_view(), name="contacta"),
     path('contactanos/enviarEmail', views.enviarEmail, name="enviarEmail"),
     path('asignaturas/entregaEvento/<int:id>', views.entregaEvento, name="entregaEvento"),
+    path('asignaturas/<nombre>/listadoEntrega/<int:id_evento>', views.listadoEntrega, name="listadoEntrega"),
 
     
 ]

@@ -1,6 +1,4 @@
-body{
-  background-color: #ec576b;
-}
+
 .prueba{
     color: blue;
 }
@@ -8,6 +6,11 @@ body{
   margin-bottom: 1%;
   color: white;
   padding: 2%;
+  background-color: #ec576b;
+}
+.titulo2{
+  margin-bottom: 1%;
+  color: white;
   background-color: #ec576b;
 }
 

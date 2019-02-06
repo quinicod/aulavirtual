@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.views.generic import UpdateView
 from django.core.mail import send_mail, BadHeaderError
 from django.core.serializers import serialize
+from datetime import datetime
 
 
 def asignaturas(request):
@@ -35,10 +36,12 @@ def asigAula(request, nombre):
     # json eventos
     event = [{"pk": e.pk, "fecha": e.fecha_inicio} for e in eventos]
     # Comprobar si el alumno ha entregado tareas
+    fechaActual=datetime.now()
+
     return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,
     'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta,'perfil':perfil,
     'nuevaSeccion':form_class,'formaterial':formaterial,'materialForm':materialForm, 'eventos':eventos,'json_eventos':event,
-    'eventoForm':eventoForm})
+    'eventoForm':eventoForm,'fechaActual':fechaActual})
 
 def anyadirSeccion(request, id):
     if request.method == 'POST':
@@ -110,4 +113,9 @@ def entregaEvento(request, id):
             file_evento.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+def listadoEntrega(request, nombre, id_evento):
+    evento=Evento.objects.get(id=id_evento)
+    asignatura=Asignatura.objects.get(slug=nombre)
+
+    return render(request, 'aula/listaEntregaEvento.html', {'evento':evento,'asignatura':asignatura})
 

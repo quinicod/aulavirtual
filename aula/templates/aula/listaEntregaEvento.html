@@ -1,0 +1,47 @@
+{% extends "aula/base.html" %}
+{% block title %}
+{{ asignatura.nombre }}
+{% endblock %}
+{% block css %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/aula/css/aula.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="row titulo">
+    <h1>{{ asignatura.nombre }}</h1>
+</div>
+
+<div class="row" style="height: 100%;">
+    <div class="col-md-4">
+        <h4><strong> Evento ->{{ evento.descripcion}}</strong></h4> <br>
+        {% for entregas in evento.fileEventos.all %}
+            {% if entregas.formato == 'pdf' %}
+                <div class="material">
+                    <p><strong>{{ entregas.alumno.username.capitalize }}</strong></p>
+                    <img src="{% static 'imagenes/pdf.png' %}" width="50">
+                    <a href="{{ entregas.file.url }}">{{ entregas.filename }}</a>
+                </div>
+            {% endif %}
+            {% if entregas.formato == 'rar' %}
+                <div class="material">
+                    <p><strong>{{ entregas.alumno.username.capitalize }}</strong></p>
+                    <img src="{% static 'imagenes/rar.png' %}" width="40">
+                    <a href="{{ entregas.file.url }}">{{ entregas.filename }}</a>
+                </div>
+            {% endif %}
+            {% if entregas.formato != 'rar' and entregas.formato != 'pdf' %}
+                <div class="material">
+                    <p><strong>{{ entregas.alumno.username.capitalize }}</strong></p>
+                    <img src="{% static 'imagenes/desconocido.jpg' %}" width="40">
+                    <a href="{{ entregas.file.url }}">{{ entregas.filename }}</a>
+                </div>
+            {% endif %}
+            <hr>
+        {% endfor %}
+    </div>
+</div> 
+
+
+{% endblock %}

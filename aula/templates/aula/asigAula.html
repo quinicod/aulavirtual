@@ -132,11 +132,19 @@
                         {% if request.user|checkFileEvento:e.id %}
                             <P class="alert-success">ENTREGADO</P>
                         {% else %}
-                            <form action="{% url 'entregaEvento' e.id %}" method='POST' enctype="multipart/form-data">
-                                {% csrf_token %}
-                                    {{ eventoForm|crispy }}
-                                    <button type="submit" class="btn btn-secondary btn-xs bottonPost">Entregar</button>
-                            </form>
+                            {% if request.user|has_group:'Profesor' %}
+                                <a href="{% url 'listadoEntrega' asignatura.slug e.id %}" class="btn btn-outline-secondary bottonPost">Listado</a>
+                            {% else %}
+                                {% if e.fecha_inicio|date:'Y/m/d' < fechaActual|date:'Y/m/d' %}
+                                    <p class="alert-danger">Sin entregar</p>
+                                {% else %}
+                                    <form action="{% url 'entregaEvento' e.id %}" method='POST' enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                            {{ eventoForm|crispy }}
+                                            <button type="submit" class="btn btn-secondary btn-xs bottonPost">Entregar</button>
+                                    </form>
+                                {% endif%}
+                            {% endif %}
                         {% endif %}
                 </div>
             </div>
@@ -184,6 +192,12 @@
 
 {% endblock %}
 {% block script %}
+<script>
+    var fechaEvento = '{{ eventos.0.fecha_inicio|date:"Y/m/d" }}'
+    var fechaActual = '{{ fechaActual|date:"Y/m/d" }}'
+    console.log(fechaEvento)
+    console.log(fechaActual)
+</script>
 <script>
 function countDown(i,ano,mes,dia,hora,min){
         var countDownDate = new Date("May 5, 2019 12:00:00").getTime();

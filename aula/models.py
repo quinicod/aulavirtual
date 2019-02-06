@@ -136,3 +136,16 @@ class File_Evento(models.Model):
     alumno=models.ForeignKey(User, verbose_name="Alumno", on_delete=models.CASCADE)
     file=models.FileField(upload_to="aula/eventos/files")
     evento=models.ForeignKey(Evento, verbose_name='Evento', on_delete=models.CASCADE, related_name='fileEventos')
+    created=models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated=models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+
+    def filename(self):
+        return os.path.basename(self.file.name)
+    def formato(self):
+        formato=self.file.name[-3::]
+        return formato
+
+    class Meta:
+        verbose_name="File_Evento"
+        verbose_name_plural="File_Eventos"
+        ordering=["-created"]
