@@ -1,0 +1,6 @@
+Pillow
+django
+django-ckeditor
+django-bootstrap-pagination
+django-crispy-forms
+django-jet
