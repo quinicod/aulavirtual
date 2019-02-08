@@ -39,22 +39,15 @@ li.nav-item{
 
 /* navbar orizontal */
 .navbar{
-    background-color: #34495e;
+    background-color: #b3b6b7;
 }
 .dropdown-menu{
-    background-color: #34495e;
+    background-color: #b3b6b7;
 }
 .dropdown-menu a:hover{
-    background-color: #34495e !important;
+    background-color: #b3b6b7 !important;
 }
 a.navbar-brand{
     color: white !important;
 }
 /* fin nav */
-.content{
-    background-color: white;
-    margin-top: 0%;
-}
-
-/* pie */
-
