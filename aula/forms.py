@@ -1,5 +1,5 @@
 from django import forms
-from .models import File_Evento,Seccion, File_seccion
+from .models import File_Evento,Seccion, File_seccion, Evento
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -38,3 +38,11 @@ class EventoForm(forms.ModelForm):
         labels=[
             'file:Archivos'
         ]
+
+class AddEvento(forms.ModelForm):
+    class Meta:
+        model = Evento
+        fields = ['descripcion', 'fecha_inicio']
+
+class CampoDate(forms.DateTimeInput):
+    input_type = "datetime"

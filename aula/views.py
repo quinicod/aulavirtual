@@ -3,7 +3,7 @@ from aula.models import User_asignatura, Asignatura, Seccion, File_seccion, Perf
 from django.contrib.auth import authenticate, logout
 from foro.models import Post, Respuesta
 from foro.forms import nuevoPostForm, nuevaRespuestaForm
-from .forms import nuevaSeccion, anyadirMaterial, MaterialForm, EventoForm
+from .forms import nuevaSeccion, anyadirMaterial, MaterialForm, EventoForm, AddEvento
 from aula.forms import Contacto
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -33,6 +33,7 @@ def asigAula(request, nombre):
     formaterial=anyadirMaterial()
     materialForm=MaterialForm()
     eventoForm=EventoForm()
+    addEvento = AddEvento()
     # json eventos
     event = [{"pk": e.pk, "fecha": e.fecha_inicio} for e in eventos]
     # Comprobar si el alumno ha entregado tareas
@@ -41,7 +42,7 @@ def asigAula(request, nombre):
     return render(request, 'aula/asigAula.html', {'asignatura':asignatura,'secciones':secciones,
     'foros':foros,'formPost':nuevoPost,'nuevaRespuesta':nuevaRespuesta,'perfil':perfil,
     'nuevaSeccion':form_class,'formaterial':formaterial,'materialForm':materialForm, 'eventos':eventos,'json_eventos':event,
-    'eventoForm':eventoForm,'fechaActual':fechaActual})
+    'eventoForm':eventoForm,'fechaActual':fechaActual,'addEvento':addEvento})
 
 def anyadirSeccion(request, id):
     if request.method == 'POST':
@@ -92,7 +93,7 @@ def enviarEmail(request):
             message= message+" \nConsulta de: "+usuario
             send_mail(subject, message,'joaquinguzmangarciaplata@gmail.com', ['joaquinguzmangarciaplata@gmail.com'])
             # email de confirmacion de envio al usuario
-            mensaje_confimacion='Su consulta se ha enviado correctamente al administrador de la pagina.'
+            mensaje_confimacion='Su consulta se ha enviado correctamente al administrador de la pagina. \n'+message
             send_mail(subject, mensaje_confimacion,'joaquinguzmangarciaplata@gmail.com', [from_email])
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
@@ -118,4 +119,19 @@ def listadoEntrega(request, nombre, id_evento):
     asignatura=Asignatura.objects.get(slug=nombre)
 
     return render(request, 'aula/listaEntregaEvento.html', {'evento':evento,'asignatura':asignatura})
+
+def borrarEvento(request, id):
+    evento=Evento.objects.get(id=id)
+    evento.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def addEvento(request, nombre):
+    asignatura=Asignatura.objects.get(slug=nombre)
+    descripcion=request.POST.get('descripcion','')
+    fecha=request.POST.get('fecha','')
+    hora=request.POST.get('hora','')
+    fecha_hora=fecha+" "+hora
+    evento=Evento(descripcion=descripcion, fecha_inicio=fecha_hora, asignatura=asignatura)
+    evento.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

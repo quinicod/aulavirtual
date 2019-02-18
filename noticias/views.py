@@ -7,7 +7,7 @@ from noticias.forms import NoticiasForm
 
 def noticias(request):
     noticias=Noticia.objects.all()
-    paginator = Paginator(noticias, 2)
+    paginator = Paginator(noticias, 4)
 
     page = request.GET.get('page')
     noticias = paginator.get_page(page)
