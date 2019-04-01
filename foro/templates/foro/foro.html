@@ -7,7 +7,7 @@
 <h1>Foro</h1>
 {% for p in foros %}
   <div class="media border p-3">
-    {% if request.user|has_group:'Profesor' %}
+    {% if p.usuario.id_user|has_group:'Profesor' %}
       <img src="{% static 'imagenes/profesor.png' %}" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
     {% else %}
       <img src="{% static 'imagenes/alumno.png' %}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
@@ -37,7 +37,7 @@
       </div>
       {% for r in p.respuesta_set.all %}
         <div class="media p-3">
-          {% if request.user|has_group:'Profesor' %}
+          {% if r.usuario.id_user|has_group:'Profesor' %}
             <img src="{% static 'imagenes/profesor.png' %}" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
           {% else %}
             <img src="{% static 'imagenes/alumno.png' %}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">

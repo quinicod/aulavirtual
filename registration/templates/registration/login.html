@@ -11,25 +11,6 @@ Login
 
 {% block content %}
 <br><br>
-{% comment %} <div class="container">
-    {% if 'register' in request.GET %}
-        <div class="alert alert-success text-center" role="alert">Usuario registrado correctamente, ya puedes identificarte</div>
-    {% endif %}
-    <div class="row mt-3">
-        <div class="col-md-9 mx-auto mb-5">
-            <form action="" method="POST">
-                {% csrf_token %}
-                <h3 class="mb-4">Iniciar sesión</h3>
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger text-center" role="alert">Usuario o contraseña incorrecos, prueba de nuevo.</div>
-                {% endif %}
-                <input type="text" name="username" autofocus maxlenght="50" required class="form-control" placeholder="Nombre de usuario">
-                <input type="password" name="password" required class="form-control" placeholder="password">
-                <input type="submit" class="btn btn-primary btn-block" value="Acceder">
-            </form>
-        </div>
-    </div>
-</div> {% endcomment %}
 <div class="container col-md-3">
     
     <div class="card">

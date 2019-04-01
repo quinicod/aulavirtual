@@ -1,8 +1,10 @@
 
 .titulo{
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     color: white;
+    padding: 3%;
+    background-color: #b3b6b7;
+    width: 100%;
 }
 body{
     color: white;
@@ -17,4 +19,14 @@ body{
 }
 img{
     max-width: 300px;
+}
+.pie{
+    width: 100%;
+    background-color: #b3b6b7;
+    color: white;
+    padding: 1%;
+}
+.borrar{
+    padding-top: 10%;
+    padding-bottom: 20%;
 }

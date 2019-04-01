@@ -11,8 +11,3 @@ class NoticiasForm(forms.ModelForm):
             'contenido': forms.Textarea(attrs={'class':'form-control'}),
             'imagen': forms.FileInput(attrs={'class':'form-control-file', 'required':'true'}),
         }
-        # labels={
-        #     'titulo': 'Titulo',
-        #     'contenido': 'Contenido',
-        #     'imagen': 'Imagen'
-        # }

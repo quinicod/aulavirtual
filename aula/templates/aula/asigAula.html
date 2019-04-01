@@ -287,7 +287,6 @@ var primerDato = Array();
 datos = evento.split('{');
 for(var i=1; i<=datos.length;i++){
     dato0 = datos[i].split('(');
-    dato1 = datos[1].split('(');
 
     dato01 = dato0[1].split(',');
     dato011 = dato0[0].split(':');
@@ -299,7 +298,6 @@ for(var i=1; i<=datos.length;i++){
     primerDato[3] = dato01[2];
     primerDato[4] = dato01[3];
     primerDato[5] = dato01[4];
-    console.log(primerDato[0]);
     countDown(primerDato[0],primerDato[1],primerDato[2],primerDato[3],primerDato[4],primerDato[5]);
 
     }
